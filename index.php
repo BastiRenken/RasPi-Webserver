@@ -12,7 +12,7 @@
     <div>
       <form method="get" action="index.php">
         <p class="schalter">Garage</p>
-        <input type="submit" value="Tor" name="tor-auf">
+        <input type="submit" value="Tor" name="tor">
       </form>
     </div>
     <div>
@@ -43,6 +43,12 @@
         <input type="submit" value="Aus" name="4-aus">
       </form>
     </div>
+    <div>
+      <form method="get" action="index.php">
+        <p class="schalter">System</p>
+        <input type="submit" value="Reboot" name="reboot">
+      </form>
+    </div>
   </div>
   <?php
   $setmode4 = shell_exec("/usr/local/bin/gpio -g mode 2 out");
@@ -50,7 +56,7 @@
   $setmode4 = shell_exec("/usr/local/bin/gpio -g mode 17 out");
   $setmode4 = shell_exec("/usr/local/bin/gpio -g mode 27 out");
   $setmode17 = shell_exec("/usr/local/bin/gpio -g mode 22 out");
-  if(isset($_GET['tor-auf'])){
+  if(isset($_GET['tor'])){
     $gpio17_on = shell_exec("/usr/local/bin/gpio -g write 17 1");
     sleep(1);
     $gpio17_off = shell_exec("/usr/local/bin/gpio -g write 17 0");
@@ -78,6 +84,9 @@
   }
   else if(isset($_GET['4-aus'])){
     $gpio4_off = shell_exec("/usr/local/bin/gpio -g write 4 0");
+  }
+  else if(isset($_GET['reboot'])){
+    $gpio4_off = shell_exec("sudo reboot 0");
   }
   ?>
 </body>
