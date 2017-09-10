@@ -52,15 +52,10 @@
   </div>
   <?php
   $setmode2 = shell_exec("/usr/local/bin/gpio -g mode 2 out");
-  $default2 = shell_exec("/usr/local/bin/gpio -g write 2 1");
   $setmode3 = shell_exec("/usr/local/bin/gpio -g mode 3 out");
-  $default3 = shell_exec("/usr/local/bin/gpio -g write 3 1");
   $setmode4 = shell_exec("/usr/local/bin/gpio -g mode 4 out");
-  $default4 = shell_exec("/usr/local/bin/gpio -g write 4 1");
   $setmode17 = shell_exec("/usr/local/bin/gpio -g mode 17 out");
-  $default17 = shell_exec("/usr/local/bin/gpio -g write 17 1");
   $setmode22 = shell_exec("/usr/local/bin/gpio -g mode 22 out");
-  $default22 = shell_exec("/usr/local/bin/gpio -g write 22 1");
   if(isset($_GET['tor'])){
     $gpio2_on = shell_exec("/usr/local/bin/gpio -g write 2 0");
     sleep(1);
