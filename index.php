@@ -12,7 +12,7 @@
     <div>
       <form method="get" action="index.php">
         <p class="schalter">Garage</p>
-        <input type="submit" value="Tor" name="tor-auf">
+        <input type="submit" value="Tor" name="tor">
       </form>
     </div>
     <div>
@@ -43,41 +43,55 @@
         <input type="submit" value="Aus" name="4-aus">
       </form>
     </div>
+    <div>
+      <form method="get" action="index.php">
+        <p class="schalter">System</p>
+        <input type="submit" value="Reboot" name="reboot">
+      </form>
+    </div>
   </div>
   <?php
-  $setmode4 = shell_exec("/usr/local/bin/gpio -g mode 2 out");
-  $setmode4 = shell_exec("/usr/local/bin/gpio -g mode 3 out");
-  $setmode4 = shell_exec("/usr/local/bin/gpio -g mode 17 out");
-  $setmode4 = shell_exec("/usr/local/bin/gpio -g mode 27 out");
-  $setmode17 = shell_exec("/usr/local/bin/gpio -g mode 22 out");
-  if(isset($_GET['tor-auf'])){
-    $gpio17_on = shell_exec("/usr/local/bin/gpio -g write 17 1");
+  $setmode2 = shell_exec("/usr/local/bin/gpio -g mode 2 out");
+  $default2 = shell_exec("/usr/local/bin/gpio -g write 2 1");
+  $setmode3 = shell_exec("/usr/local/bin/gpio -g mode 3 out");
+  $default3 = shell_exec("/usr/local/bin/gpio -g write 3 1");
+  $setmode4 = shell_exec("/usr/local/bin/gpio -g mode 4 out");
+  $default4 = shell_exec("/usr/local/bin/gpio -g write 4 1");
+  $setmode17 = shell_exec("/usr/local/bin/gpio -g mode 17 out");
+  $default17 = shell_exec("/usr/local/bin/gpio -g write 17 1");
+  $setmode22 = shell_exec("/usr/local/bin/gpio -g mode 22 out");
+  $default22 = shell_exec("/usr/local/bin/gpio -g write 22 1");
+  if(isset($_GET['tor'])){
+    $gpio2_on = shell_exec("/usr/local/bin/gpio -g write 2 0");
     sleep(1);
-    $gpio17_off = shell_exec("/usr/local/bin/gpio -g write 17 0");
+    $gpio2_off = shell_exec("/usr/local/bin/gpio -g write 2 1");
   }
   else if(isset($_GET['1-an'])){
-    $gpio4_on = shell_exec("/usr/local/bin/gpio -g write 4 1");
+    $gpio3_on = shell_exec("/usr/local/bin/gpio -g write 3 0");
   }
   else if(isset($_GET['1-aus'])){
-    $gpio4_off = shell_exec("/usr/local/bin/gpio -g write 4 0");
+    $gpio3_off = shell_exec("/usr/local/bin/gpio -g write 3 1");
   }
   else if(isset($_GET['2-an'])){
-    $gpio4_on = shell_exec("/usr/local/bin/gpio -g write 4 1");
+    $gpio4_on = shell_exec("/usr/local/bin/gpio -g write 4 0");
   }
   else if(isset($_GET['2-aus'])){
-    $gpio4_off = shell_exec("/usr/local/bin/gpio -g write 4 0");
+    $gpio4_off = shell_exec("/usr/local/bin/gpio -g write 4 1");
   }
   else if(isset($_GET['3-an'])){
-    $gpio4_on = shell_exec("/usr/local/bin/gpio -g write 4 1");
+    $gpio17_on = shell_exec("/usr/local/bin/gpio -g write 17 0");
   }
   else if(isset($_GET['3-aus'])){
-    $gpio4_off = shell_exec("/usr/local/bin/gpio -g write 4 0");
+    $gpio17_off = shell_exec("/usr/local/bin/gpio -g write 17 1");
   }
   else if(isset($_GET['4-an'])){
-    $gpio4_on = shell_exec("/usr/local/bin/gpio -g write 4 1");
+    $gpio22_on = shell_exec("/usr/local/bin/gpio -g write 22 0");
   }
   else if(isset($_GET['4-aus'])){
-    $gpio4_off = shell_exec("/usr/local/bin/gpio -g write 4 0");
+    $gpio22_off = shell_exec("/usr/local/bin/gpio -g write 22 1");
+  }
+  else if(isset($_GET['reboot'])){
+    $reboot = shell_exec("sudo reboot 0");
   }
   ?>
 </body>
