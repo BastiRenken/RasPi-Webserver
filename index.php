@@ -6,14 +6,11 @@
   <title> Smart Home </title>
   <link href="style.css" rel="stylesheet">
   <?php
-  $setmode2 = shell_exec("/usr/local/bin/gpio -g mode 2 out");
-  $setmode3 = shell_exec("/usr/local/bin/gpio -g mode 3 out");
-  $setmode4 = shell_exec("/usr/local/bin/gpio -g mode 4 out");
-  $setmode17 = shell_exec("/usr/local/bin/gpio -g mode 17 out");
-  $setmode27 = shell_exec("/usr/local/bin/gpio -g mode 27 out");
-  $setmode22 = shell_exec("/usr/local/bin/gpio -g mode 22 out");
-  $setmode10 = shell_exec("/usr/local/bin/gpio -g mode 10 out");
-  $setmode9 = shell_exec("/usr/local/bin/gpio -g mode 9 out");
+  $gpios = array(2, 3, 4, 17, 27, 22, 10, 9);
+  foreach ($gpios as $pin) {
+    $terminalcmd = "/usr/local/bin/gpio -g mode %d out";
+    $setmode = shell_exec(sprintf($terminalcmd, $pin));
+  }
   if(isset($_GET['tor'])){
     $gpio2_on = shell_exec("/usr/local/bin/gpio -g write 2 0");
     sleep(1);
