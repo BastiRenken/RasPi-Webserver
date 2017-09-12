@@ -39,16 +39,12 @@
   else if(isset($_GET['alle-an'])){ //Alle anschalten
     foreach($gpios as $pin){
       file_put_contents(sprintf($datei, $pin), 0);
-    }
-    foreach($gpios as $pin){
       shell_exec(sprintf($terminal_an, $pin));
     }
   }
   else if(isset($_GET['alle-aus'])){ //Alle ausschalten
     foreach($gpios as $pin){
       file_put_contents(sprintf($datei, $pin), 1);
-    }
-    foreach($gpios as $pin){
       shell_exec(sprintf($terminal_aus, $pin));
     }
   }
