@@ -60,7 +60,7 @@
   }
   foreach($gpio_liste as $pin_liste){
     if(isset($_GET[sprintf($aus, $pin_liste[0])])){
-      file_put_contents(sprintf($datei, $pin_liste[1]), 0);
+      file_put_contents(sprintf($datei, $pin_liste[1]), 1);
       shell_exec(sprintf($terminal_aus, $pin_liste[1]));
     }
   }
