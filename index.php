@@ -86,99 +86,22 @@
     <div>
       <form method="get" action="index.php">
         <?php
-          if (file_get_contents("gpio3.txt") == 1){
-            echo '<p class="schalter" style="color:darkred">Schalter 1</p>';
+        foreach($gpio_liste as $pin_liste){
+          echo '<div>';
+          $schalter = sprintf("Schalter %d", $pin_liste[0]);
+          if (file_get_contents(sprintf($datei, $pin_liste[1])) == 1){
+            echo sprintf('<p class="schalter" style="color:darkred">%s</p>', $schalter);
           }
-          else if (file_get_contents("gpio3.txt") == 0){
-            echo '<p class="schalter" style="color:limegreen">Schalter 1</p>';
+          else if (file_get_contents(sprintf($datei, $pin_liste[1])) == 0){
+            echo sprintf('<p class="schalter" style="color:limegreen">%s</p>', $schalter);
           }
-        ?>
-        <input type="submit" value="An" name="1-an">
-        <input type="submit" value="Aus" name="1-aus">
-      </form>
-    </div>
-    <div>
-      <form method="get" action="index.php">
-        <?php
-          if (file_get_contents("gpio4.txt") == 1){
-            echo '<p class="schalter" style="color:darkred">Schalter 2</p>';
-          }
-          else if (file_get_contents("gpio4.txt") == 0){
-            echo '<p class="schalter" style="color:limegreen">Schalter 2</p>';
-          }
-        ?>
-        <input type="submit" value="An" name="2-an">
-        <input type="submit" value="Aus" name="2-aus">
-      </form>
-    </div>
-    <div>
-      <form method="get" action="index.php">
-        <?php
-          if (file_get_contents("gpio17.txt") == 1){
-            echo '<p class="schalter" style="color:darkred">Schalter 3</p>';
-          }
-          else if (file_get_contents("gpio17.txt") == 0){
-            echo '<p class="schalter" style="color:limegreen">Schalter 3</p>';
-          }
-        ?>
-        <input type="submit" value="An" name="3-an">
-        <input type="submit" value="Aus" name="3-aus">
-      </form>
-    </div>
-    <div>
-      <form method="get" action="index.php">
-        <?php
-          if (file_get_contents("gpio27.txt") == 1){
-            echo '<p class="schalter" style="color:darkred">Schalter 4</p>';
-          }
-          else if (file_get_contents("gpio27.txt") == 0){
-            echo '<p class="schalter" style="color:limegreen">Schalter 4</p>';
-          }
-        ?>
-        <input type="submit" value="An" name="4-an">
-        <input type="submit" value="Aus" name="4-aus">
-      </form>
-    </div>
-    <div>
-      <form method="get" action="index.php">
-        <?php
-        if (file_get_contents("gpio22.txt") == 1){
-          echo '<p class="schalter" style="color:darkred">Schalter 5</p>';
-        }
-        else if (file_get_contents("gpio22.txt") == 0){
-          echo '<p class="schalter" style="color:limegreen">Schalter 5</p>';
+          $an2 = sprintf($an, $pin_liste[0]);
+          $aus2 = sprintf($aus, $pin_liste[0]);
+          echo sprintf('<input type="submit" value="An" name=%s>', $an2);
+          echo sprintf('<input type="submit" value="Aus" name=%s>', $aus2);
+          echo '</div>';
         }
         ?>
-        <input type="submit" value="An" name="5-an">
-        <input type="submit" value="Aus" name="5-aus">
-      </form>
-    </div>
-    <div>
-      <form method="get" action="index.php">
-        <?php
-        if (file_get_contents("gpio10.txt") == 1){
-          echo '<p class="schalter" style="color:darkred">Schalter 6</p>';
-        }
-        else if (file_get_contents("gpio10.txt") == 0){
-          echo '<p class="schalter" style="color:limegreen">Schalter 6</p>';
-        }
-        ?>
-        <input type="submit" value="An" name="6-an">
-        <input type="submit" value="Aus" name="6-aus">
-      </form>
-    </div>
-    <div>
-      <form method="get" action="index.php">
-        <?php
-        if (file_get_contents("gpio9.txt") == 1){
-          echo '<p class="schalter" style="color:darkred">Schalter 7</p>';
-        }
-        else if (file_get_contents("gpio9.txt") == 0){
-          echo '<p class="schalter" style="color:limegreen">Schalter 7</p>';
-        }
-        ?>
-        <input type="submit" value="An" name="7-an">
-        <input type="submit" value="Aus" name="7-aus">
       </form>
     </div>
   </div>
