@@ -6,103 +6,63 @@
   <title> Smart Home </title>
   <link href="style.css" rel="stylesheet">
   <?php
-  $gpios = array(2, 3, 4, 17, 27, 22, 10, 9);
-  foreach ($gpios as $pin) {
-    $terminalcmd = "/usr/local/bin/gpio -g mode %d out";
-    $setmode = shell_exec(sprintf($terminalcmd, $pin));
+  // Listen und Befehle definieren
+  $alle_gpios = array(2, 3, 4, 17, 27, 22, 10, 9);
+  $gpios = array(3, 4, 17, 27, 22, 10, 9);
+  $gpio_liste = array(
+    array(1, 3),
+    array(2, 4),
+    array(3, 17),
+    array(4, 27),
+    array(5, 22),
+    array(6, 10),
+    array(7, 9)
+  );
+  $an = "%d-an";
+  $aus = "%d-aus";
+  $datei = "gpio%d.txt";
+  $terminal_out = "/usr/local/bin/gpio -g mode %d out";
+  $terminal_an = "/usr/local/bin/gpio -g write %d 0";
+  $terminal_aus = "/usr/local/bin/gpio -g write %d 1";
+
+  // Alle GPIO-Pins als Outputs festlegen
+  foreach($alle_gpios as $pin){
+    shell_exec(sprintf($terminal_out, $pin));
   }
-  if(isset($_GET['tor'])){
+
+  // GPIO Steuerung
+  if(isset($_GET['tor'])){ //Tor betätigen
     $gpio2_on = shell_exec("/usr/local/bin/gpio -g write 2 0");
     sleep(1);
     $gpio2_off = shell_exec("/usr/local/bin/gpio -g write 2 1");
   }
-  else if(isset($_GET['alle-an'])){
-    file_put_contents("gpio3.txt", 0);
-    file_put_contents("gpio4.txt", 0);
-    file_put_contents("gpio17.txt", 0);
-    file_put_contents("gpio27.txt", 0);
-    file_put_contents("gpio22.txt", 0);
-    file_put_contents("gpio10.txt", 0);
-    file_put_contents("gpio9.txt", 0);
-    $gpio3_on = shell_exec("/usr/local/bin/gpio -g write 3 0");
-    $gpio4_on = shell_exec("/usr/local/bin/gpio -g write 4 0");
-    $gpio17_on = shell_exec("/usr/local/bin/gpio -g write 17 0");
-    $gpio27_on = shell_exec("/usr/local/bin/gpio -g write 27 0");
-    $gpio22_on = shell_exec("/usr/local/bin/gpio -g write 22 0");
-    $gpio10_on = shell_exec("/usr/local/bin/gpio -g write 10 0");
-    $gpio9_on = shell_exec("/usr/local/bin/gpio -g write 9 0");
+  else if(isset($_GET['alle-an'])){ //Alle anschalten
+    foreach($gpios as $pin){
+      file_put_contents(sprintf($datei, $pin), 0);
+    }
+    foreach($gpios as $pin){
+      shell_exec(sprintf($terminal_an, $pin));
+    }
   }
-  else if(isset($_GET['alle-aus'])){
-    file_put_contents("gpio3.txt", 1);
-    file_put_contents("gpio4.txt", 1);
-    file_put_contents("gpio17.txt", 1);
-    file_put_contents("gpio27.txt", 1);
-    file_put_contents("gpio22.txt", 1);
-    file_put_contents("gpio10.txt", 1);
-    file_put_contents("gpio9.txt", 1);
-    $gpio3_off = shell_exec("/usr/local/bin/gpio -g write 3 1");
-    $gpio4_off = shell_exec("/usr/local/bin/gpio -g write 4 1");
-    $gpio17_off = shell_exec("/usr/local/bin/gpio -g write 17 1");
-    $gpio27_off = shell_exec("/usr/local/bin/gpio -g write 27 1");
-    $gpio22_off = shell_exec("/usr/local/bin/gpio -g write 22 1");
-    $gpio10_off = shell_exec("/usr/local/bin/gpio -g write 10 1");
-    $gpio9_off = shell_exec("/usr/local/bin/gpio -g write 9 1");
+  else if(isset($_GET['alle-aus'])){ //Alle ausschalten
+    foreach($gpios as $pin){
+      file_put_contents(sprintf($datei, $pin), 1);
+    }
+    foreach($gpios as $pin){
+      shell_exec(sprintf($terminal_aus, $pin));
+    }
   }
-  else if(isset($_GET['1-an'])){
-    file_put_contents("gpio3.txt", 0);
-    $gpio3_on = shell_exec("/usr/local/bin/gpio -g write 3 0");
+  else foreach($gpio_liste as $pin_liste){
+    if(isset($_GET[sprintf($an, $pin_liste[0])])){
+      file_put_contents(sprintf($datei, $pin_liste[1]), 0);
+      shell_exec(sprintf($terminal_an, $pin_liste[1]));
+    }
   }
-  else if(isset($_GET['1-aus'])){
-    file_put_contents("gpio3.txt", 1);
-    $gpio3_off = shell_exec("/usr/local/bin/gpio -g write 3 1");
-  }
-  else if(isset($_GET['2-an'])){
-    file_put_contents("gpio4.txt", 0);
-    $gpio4_on = shell_exec("/usr/local/bin/gpio -g write 4 0");
-  }
-  else if(isset($_GET['2-aus'])){
-    file_put_contents("gpio4.txt", 1);
-    $gpio4_off = shell_exec("/usr/local/bin/gpio -g write 4 1");
-  }
-  else if(isset($_GET['3-an'])){
-    file_put_contents("gpio17.txt", 0);
-    $gpio17_on = shell_exec("/usr/local/bin/gpio -g write 17 0");
-  }
-  else if(isset($_GET['3-aus'])){
-    file_put_contents("gpio17.txt", 1);
-    $gpio17_off = shell_exec("/usr/local/bin/gpio -g write 17 1");
-  }
-  else if(isset($_GET['4-an'])){
-    file_put_contents("gpio27.txt", 0);
-    $gpio27_on = shell_exec("/usr/local/bin/gpio -g write 27 0");
-  }
-  else if(isset($_GET['4-aus'])){
-    file_put_contents("gpio27.txt", 1);
-    $gpio27_off = shell_exec("/usr/local/bin/gpio -g write 27 1");
-  }
-  else if(isset($_GET['5-an'])){
-    file_put_contents("gpio22.txt", 0);
-    $gpio22_on = shell_exec("/usr/local/bin/gpio -g write 22 0");
-  }
-  else if(isset($_GET['5-aus'])){
-    file_put_contents("gpio22.txt", 1);
-    $gpio22_off = shell_exec("/usr/local/bin/gpio -g write 22 1");
-  }
-  else if(isset($_GET['6-an'])){
-    file_put_contents("gpio10.txt", 0);
-    $gpio10_on = shell_exec("/usr/local/bin/gpio -g write 10 0");
-  }
-  else if(isset($_GET['6-aus'])){
-    file_put_contents("gpio10.txt", 1);
-    $gpio10_off = shell_exec("/usr/local/bin/gpio -g write 10 1");
-  }
-  else if(isset($_GET['7-an'])){
-    file_put_contents("gpio9.txt", 0);
-    $gpio9_on = shell_exec("/usr/local/bin/gpio -g write 9 0");
-  }
-  else if(isset($_GET['7-aus'])){
-    file_put_contents("gpio9.txt", 1);
-    $gpio9_off = shell_exec("/usr/local/bin/gpio -g write 9 1");
+  foreach($gpio_liste as $pin_liste){
+    if(isset($_GET[sprintf($aus, $pin_liste[0])])){
+      file_put_contents(sprintf($datei, $pin_liste[1]), 0);
+      shell_exec(sprintf($terminal_aus, $pin_liste[1]));
+    }
   }
   ?>
 </head>
