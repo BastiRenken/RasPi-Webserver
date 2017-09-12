@@ -9,15 +9,7 @@
   // Listen und Befehle definieren
   $alle_gpios = array(2, 3, 4, 17, 27, 22, 10, 9);
   $gpios = array(3, 4, 17, 27, 22, 10, 9);
-  $gpio_liste = array(
-    array(1, 3),
-    array(2, 4),
-    array(3, 17),
-    array(4, 27),
-    array(5, 22),
-    array(6, 10),
-    array(7, 9)
-  );
+  $gpio_liste = array(array(1, 3), array(2, 4), array(3, 17), array(4, 27), array(5, 22), array(6, 10), array(7, 9));
   $an = "%d-an";
   $aus = "%d-aus";
   $datei = "gpio%d.txt";
