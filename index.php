@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
   <meta charset="utf-8" name="viewport" content="width=device-width"/>
   <title> Smart Home </title>
   <link href="style.css" rel="stylesheet">
   <?php
+  // Userdaten in Datei speichern
+  $timestamp = time();
+  $datum = date("d.m.Y - H:i:s", $timestamp);
+  $user_agent = $_SERVER["HTTP_USER_AGENT"];
+  $ip = $_SERVER["REMOTE_ADDR"];
+  $port = $_SERVER["REMOTE_PORT"];
+  file_put_contents("/home/pi/Desktop/logfile.txt", $datum, FILE_APPEND);
+  file_put_contents("/home/pi/Desktop/logfile.txt", ": ", FILE_APPEND);
+  file_put_contents("/home/pi/Desktop/logfile.txt", $ip, FILE_APPEND);
+  file_put_contents("/home/pi/Desktop/logfile.txt", ", ", FILE_APPEND);
+  file_put_contents("/home/pi/Desktop/logfile.txt", $port, FILE_APPEND);
+  file_put_contents("/home/pi/Desktop/logfile.txt", ", ", FILE_APPEND);
+  file_put_contents("/home/pi/Desktop/logfile.txt", $user_agent, FILE_APPEND);
+  file_put_contents("/home/pi/Desktop/logfile.txt", "\n", FILE_APPEND);
   // Listen und Befehle definieren
   $alle_gpios = array(2, 3, 4, 17, 27, 22, 10, 9, 11);
   $gpios = array(3, 4, 17, 27, 22, 10, 9);
@@ -67,7 +80,6 @@
   }
   ?>
 </head>
-
 <body>
   <h1>Smart Home</h1>
   <div id=menu>
@@ -112,5 +124,4 @@
     </div>
   </div>
 </body>
-
 </html>
