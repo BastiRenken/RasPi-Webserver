@@ -7,9 +7,17 @@
   <link href="style.css" rel="stylesheet">
   <?php
   // Listen und Befehle definieren
-  $alle_gpios = array(2, 3, 4, 17, 27, 22, 10, 9);
+  $alle_gpios = array(2, 3, 4, 17, 27, 22, 10, 9, 11);
   $gpios = array(3, 4, 17, 27, 22, 10, 9);
-  $gpio_liste = array(array(1, 3), array(2, 4), array(3, 17), array(4, 27), array(5, 22), array(6, 10), array(7, 9));
+  $gpio_liste = array(
+    array(1, 3, "Schalter 1"),
+    array(2, 4, "Schalter 2"),
+    array(3, 17, "Schalter 3"),
+    array(4, 27, "Schalter 4"),
+    array(5, 22, "Schalter 5"),
+    array(6, 10, "Schalter 6"),
+    array(7, 9, "Schalter 7")
+  );
   $an = "%d-an";
   $aus = "%d-aus";
   $datei = "gpio%d.txt";
@@ -27,6 +35,11 @@
     $gpio2_on = shell_exec("/usr/local/bin/gpio -g write 2 0");
     sleep(1);
     $gpio2_off = shell_exec("/usr/local/bin/gpio -g write 2 1");
+  }
+  if(isset($_GET['buzzer'])){ //Buzzer betätigen
+    $gpio11_on = shell_exec("/usr/local/bin/gpio -g write 11 1");
+    sleep(1);
+    $gpio11_off = shell_exec("/usr/local/bin/gpio -g write 11 0");
   }
   else if(isset($_GET['alle-an'])){ //Alle GPIO-Pins anschalten
     foreach($gpios as $pin){
@@ -64,6 +77,12 @@
         <input type="submit" value="Tor" name="tor">
       </form>
     </div>
+    <div> <!Buzzerschalter anzeigen>
+      <form method="get" action="index.php">
+        <p class="schalter">Buzzer</p>
+        <input type="submit" value="Buzzer" name="buzzer">
+      </form>
+    </div>
     <div> <!Alle-Schalter anzeigen>
       <form method="get" action="index.php">
         <p class="schalter" style="color:black">Alle</p>
@@ -76,12 +95,11 @@
         <?php
         foreach($gpio_liste as $pin_liste){ //Schleife für mehrere Schalter
           echo '<div>';
-          $schalter = sprintf("Schalter %d", $pin_liste[0]);
           if (file_get_contents(sprintf($datei, $pin_liste[1])) == 1){ //Ausgeschaltet
-            echo sprintf('<p class="schalter" style="color:darkred">%s</p>', $schalter);
+            echo sprintf('<p class="schalter" style="color:darkred">%s</p>', $pin_liste[2]);
           }
           else if (file_get_contents(sprintf($datei, $pin_liste[1])) == 0){ //Angeschaltet
-            echo sprintf('<p class="schalter" style="color:limegreen">%s</p>', $schalter);
+            echo sprintf('<p class="schalter" style="color:limegreen">%s</p>', $pin_liste[2]);
           }
           $an2 = sprintf($an, $pin_liste[0]);
           $aus2 = sprintf($aus, $pin_liste[0]);
